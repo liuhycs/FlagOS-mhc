@@ -30,6 +30,22 @@ from .autograd import (
     mhc_pre_clamp_sinkhorn_fn,
 )
 
+# TLE-optimized variants (fall back to plain Triton if TLE unavailable).
+# The in-tree `.tle` subpackage may be absent; tests overlay the ops from
+# /data/liuhy/tle onto this module at load time.
+try:
+    from .tle import (
+        MhcPostFnTLE,
+        MhcPreClampSinkhornFnTLE,
+        mhc_post_backward_tle,
+        mhc_post_fn_tle,
+        mhc_post_tle,
+        mhc_pre_clamp_sinkhorn_backward_tle,
+        mhc_pre_clamp_sinkhorn_fn_tle,
+        mhc_pre_clamp_sinkhorn_tle,
+    )
+except ImportError:
+    pass
 
 __all__ = [
     "mhc_post",
@@ -44,4 +60,13 @@ __all__ = [
     "MhcPreClampSinkhornFn",
     "mhc_post_fn",
     "mhc_pre_clamp_sinkhorn_fn",
+    # TLE
+    "mhc_post_tle",
+    "mhc_post_backward_tle",
+    "mhc_pre_clamp_sinkhorn_tle",
+    "mhc_pre_clamp_sinkhorn_backward_tle",
+    "MhcPostFnTLE",
+    "MhcPreClampSinkhornFnTLE",
+    "mhc_post_fn_tle",
+    "mhc_pre_clamp_sinkhorn_fn_tle",
 ]
